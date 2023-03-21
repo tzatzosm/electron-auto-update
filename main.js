@@ -2,13 +2,13 @@ const path = require('path')
 const os = require('os');
 const { app, autoUpdater, dialog, BrowserWindow } = require('electron')
 const log = require('electron-log');
-const server = 'http://localhost:8080'
+const server = 'https://hazel-ten-rosy.vercel.app'
 
 const platform = os.platform() + '_' + os.arch();
 console.log(`Version is: ${app.getVersion()}`)
 console.log(`Platform is: ${platform}`)
 
-const url = `${server}/update/flavor/production/${platform}/${app.getVersion()}/stable`
+const url = `${server}/update/${platform}/${app.getVersion()}`
 console.log(`Update url: ${url}`)
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -44,6 +44,10 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', () => {
     console.log("update-available")
+})
+
+autoUpdater.on('update-not-available', () => {
+    console.log("update-not-available")
 })
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
